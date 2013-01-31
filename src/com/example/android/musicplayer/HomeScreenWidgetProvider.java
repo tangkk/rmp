@@ -23,7 +23,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 import android.app.PendingIntent;
 
-public class ExampleAppWidgetProvider extends AppWidgetProvider{	
+public class HomeScreenWidgetProvider extends AppWidgetProvider{	
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds){
 		final int N = appWidgetIds.length;
@@ -45,7 +45,7 @@ public class ExampleAppWidgetProvider extends AppWidgetProvider{
 			PendingIntent pendingStopIntent = PendingIntent.getService(context, 0, StopIntent, 0);
 			
 			// Get the layout for the App Widget and attach on-click listeners to the buttons
-			RemoteViews views = new RemoteViews(context.getPackageName(),R.layout.example_appwidget);
+			RemoteViews views = new RemoteViews(context.getPackageName(),R.layout.home_screen_appwidget);
 			views.setOnClickPendingIntent(R.id.playbutton, pendingPlayIntent);
 			views.setOnClickPendingIntent(R.id.pausebutton, pendingPauseIntent);
 			views.setOnClickPendingIntent(R.id.skipbutton, pendingSkipIntent);
