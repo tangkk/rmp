@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.musicplayer;
+package com.android.randommusicplayer;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -43,6 +43,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
+
+import com.android.randommusicplayer.R;
 
 /**
  * Service that handles media playback. This is the Service through which we perform all the media

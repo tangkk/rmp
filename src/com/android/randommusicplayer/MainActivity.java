@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.android.musicplayer;
+package com.android.randommusicplayer;
+
+import com.android.randommusicplayer.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,6 +26,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -155,5 +160,24 @@ public class MainActivity extends Activity implements OnClickListener {
                 return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+      MenuInflater inflater = getMenuInflater();
+      inflater.inflate(R.menu.sound_effect_menu, menu);
+      return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch(item.getItemId()) {
+    	case R.id.soundeffect:
+    		//effectChooser();
+    		return true;
+    	default:
+    		return super.onOptionsItemSelected(item);	
+    	}
+    	
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.musicplayer;
+package com.android.randommusicplayer;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

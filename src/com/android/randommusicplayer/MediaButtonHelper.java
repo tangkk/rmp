@@ -1,4 +1,4 @@
-package com.example.android.musicplayer;
+package com.android.randommusicplayer;
 
 import android.content.ComponentName;
 import android.media.AudioManager;
