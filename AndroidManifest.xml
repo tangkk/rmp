@@ -19,7 +19,7 @@
     android:versionCode="1"
     android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17" />
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="17" />
    
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -39,6 +39,15 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="audio/*"/>
             </intent-filter>
+        </activity>
+        
+        <activity android:name="com.android.randommusicplayer.SoundEffect"
+            android:label="@string/sound_effect"
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:parentActivityName="com.android.randommusicplayer.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.android.randommusicplayer.MainActivity" />
         </activity>
 
         <service android:exported="false" android:name="com.android.randommusicplayer.MusicService">

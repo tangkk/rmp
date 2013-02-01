@@ -16,8 +16,6 @@
 
 package com.android.randommusicplayer;
 
-import com.android.randommusicplayer.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -44,7 +42,8 @@ public class MainActivity extends Activity implements OnClickListener {
      * The URL we suggest as default when adding by URL. This is just so that the user doesn't
      * have to find an URL to test this sample.
      */
-    final String SUGGESTED_URL = "http://www.vorbis.com/music/Epoq-Lepidoptera.ogg"; 
+    final String SUGGESTED_URL = "http://www.vorbis.com/music/Epoq-Lepidoptera.ogg";
+    static final int SOUNDEFFECTREQ = 0;
 
     Button mPlayButton;
     Button mPauseButton;
@@ -173,11 +172,27 @@ public class MainActivity extends Activity implements OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()) {
     	case R.id.soundeffect:
-    		//effectChooser();
+    		Intent intent = new Intent(this, SoundEffect.class);
+    		startActivityForResult(intent, SOUNDEFFECTREQ);
     		return true;
     	default:
-    		return super.onOptionsItemSelected(item);	
+    		return super.onOptionsItemSelected(item);
     	}
     	
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if (requestCode == SOUNDEFFECTREQ) {
+    		if (resultCode == RESULT_OK) {
+    			// Set the returned audio effect to the music player
+    			short EQ = data.getShortExtra("EQ", (short)5);
+    			Log.i("onActivityResult", "returned data = " + EQ);
+    			Intent intent = new Intent(MusicService.ACTION_PLAY);
+    			intent.putExtra("EQ", EQ);
+    			intent.putExtra("EQREQUEST", true);
+    			startService(intent);
+    		}
+    	}
     }
 }

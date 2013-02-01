@@ -17,4 +17,10 @@
 <resources>
     <string name="app_title">Random Music Player</string>
     <string name="sound_effect">Sound Effect</string>
+    <string name="classical">Classical</string>
+    <string name="dance">Dance</string>
+    <string name="jazz">Jazz</string>
+    <string name="pop">Pop</string>
+    <string name="rock">Rock</string>
+    <string name="none">None</string>
 </resources>

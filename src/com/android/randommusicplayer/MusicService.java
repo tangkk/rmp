@@ -32,6 +32,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.media.RemoteControlClient;
+import android.media.audiofx.Equalizer;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
@@ -41,8 +42,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Locale;
 
 import com.android.randommusicplayer.R;
 
@@ -79,6 +78,15 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 
     // our media player
     MediaPlayer mPlayer = null;
+    Equalizer EQ = null;
+    public static short EQPreset;
+    public static short EQPreserved = 5;
+    public static final short Classical = 0;
+    public static final short Dance = 1;
+    public static final short Jazz = 2;
+    public static final short Pop = 3;
+    public static final short Rock = 4;
+    public static final short None = 5;
 
     // our AudioFocusHelper object, if it's available (it's available on SDK level >= 8)
     // If not available, this will be null. Always check for null before using!
@@ -179,6 +187,12 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         }
         else
             mPlayer.reset();
+        
+        if (EQ == null) {
+        	int ASID = mPlayer.getAudioSessionId();
+        	EQ = new Equalizer(0, ASID);
+        	Log.i("Equalizer","Equalizer Created!");
+        }
     }
 
     @Override
@@ -215,6 +229,26 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+    	if (intent.getBooleanExtra("EQREQUEST", false)) {
+	    	EQPreset = intent.getShortExtra("EQ", None);
+	    	Log.i("Equalizer", "Input EQPreset = " + EQPreset);	    	
+	    	// Update the Equalizer if the preset changes
+	    	if (EQ != null){
+				Log.i("Equalizer", "Current EQPreset = " +
+				EQ.getPresetName(EQ.getCurrentPreset()) + " is " + EQ.getEnabled());
+			    if (EQPreset == None) {
+			    	EQ.setEnabled(false);
+			        Log.i("Equalizer","is EQ enable = "+ EQ.getEnabled());
+			    } else {
+			    	EQ.usePreset(EQPreset);
+			        String PresetName = EQ.getPresetName(EQ.getCurrentPreset());
+			        EQ.setEnabled(true);
+			        Log.i("Equalizer","New Preset name = "+ PresetName + " is " + EQ.getEnabled());
+			    }
+			    EQPreserved = EQPreset;
+			}
+    	}
+    	
         String action = intent.getAction();
         Log.i(TAG, "onStartCommand" + action);
         if (action.equals(ACTION_TOGGLE_PLAYBACK)) processTogglePlaybackRequest();
@@ -344,6 +378,9 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
             mPlayer.reset();
             mPlayer.release();
             mPlayer = null;
+            EQ.release();
+            EQ = null;
+            Toast.makeText(getApplicationContext(), "release resources", Toast.LENGTH_SHORT).show();
         }
 
         // we can also release the Wifi lock, if we're holding it
