@@ -44,6 +44,7 @@ public class MainActivity extends Activity implements OnClickListener {
      */
     final String SUGGESTED_URL = "http://www.vorbis.com/music/Epoq-Lepidoptera.ogg";
     static final int SOUNDEFFECTREQ = 0;
+    static final int TUNER = 1;
 
     Button mPlayButton;
     Button mPauseButton;
@@ -164,7 +165,7 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
       MenuInflater inflater = getMenuInflater();
-      inflater.inflate(R.menu.sound_effect_menu, menu);
+      inflater.inflate(R.menu.menu, menu);
       return true;
     }
     
@@ -172,8 +173,10 @@ public class MainActivity extends Activity implements OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()) {
     	case R.id.soundeffect:
-    		Intent intent = new Intent(this, SoundEffect.class);
-    		startActivityForResult(intent, SOUNDEFFECTREQ);
+    		startActivityForResult(new Intent(this, SoundEffect.class), SOUNDEFFECTREQ);
+    		return true;
+    	case R.id.tuner:
+    		startActivity(new Intent(this, Tuner.class));
     		return true;
     	default:
     		return super.onOptionsItemSelected(item);

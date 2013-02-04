@@ -23,4 +23,11 @@
     <string name="pop">Pop</string>
     <string name="rock">Rock</string>
     <string name="none">None</string>
+    <string name="tuner">Tuner</string>
+    <string name="E2">E2</string>
+    <string name="A2">A2</string>
+    <string name="D3">D3</string>
+    <string name="G3">G3</string>
+    <string name="B3">B3</string>
+    <string name="E4">E4</string>
 </resources>

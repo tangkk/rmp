@@ -49,6 +49,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.randommusicplayer.MainActivity" />
         </activity>
+        
+        <activity android:name="com.android.randommusicplayer.Tuner"
+            android:label="@string/tuner"
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            android:parentActivityName="com.android.randommusicplayer.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.android.randommusicplayer.MainActivity" />
+        </activity>
 
         <service android:exported="false" android:name="com.android.randommusicplayer.MusicService">
             <intent-filter>
