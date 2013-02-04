@@ -1,6 +1,3 @@
-.project
-.classpath
 bin/
 gen/
-project.properties
-lib/
+libs/
