@@ -19,66 +19,83 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="#ffffffff"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
+   	<LinearLayout 
+    android:layout_height="match_parent"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/classical"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:background="#ff000000"
-        android:textColor="#ffffffff"
-        android:text="@string/classical" />
-
-    <Button
-        android:id="@+id/dance"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:background="#ff000000"
-        android:textColor="#ffffffff"
-        android:text="@string/dance" />
-
-    <Button
-        android:id="@+id/jazz"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:background="#ff000000"
-        android:textColor="#ffffffff"
-        android:text="@string/jazz" />
-
-    <Button
-        android:id="@+id/pop"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:background="#ff000000"
-        android:textColor="#ffffffff"
-        android:text="@string/pop" />
-
-    <Button
-        android:id="@+id/rock"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:background="#ff000000"
-        android:textColor="#ffffffff"
-        android:text="@string/rock" />
-
-    <Button
-        android:id="@+id/none"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp"
-        android:background="#ff000000"
-        android:textColor="#ffffffff"
-        android:text="@string/none" />
+	    <Button
+	        android:id="@+id/classical"
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:layout_margin="1dp"
+	        android:background="#ff000000"
+            android:textColor="#ffffffff"
+            android:textSize="20sp"
+	        android:text="@string/classical" />
+	
+	    <Button
+	        android:id="@+id/dance"
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:layout_margin="1dp"
+	        android:background="#ff000000"
+            android:textColor="#ffffffff"
+            android:textSize="20sp"
+	        android:text="@string/dance" />
+	
+	    <Button
+	        android:id="@+id/jazz"
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:layout_margin="1dp"
+	        android:background="#ff000000"
+            android:textColor="#ffffffff"
+            android:textSize="20sp"
+	        android:text="@string/jazz" />
+	</LinearLayout>
+	<LinearLayout 
+    	android:layout_height="match_parent"
+    	android:layout_width="0dp"
+    	android:layout_weight="1"
+    	android:orientation="vertical">
+	    <Button
+	        android:id="@+id/pop"
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:layout_margin="1dp"
+	        android:background="#ff000000"
+            android:textColor="#ffffffff"
+            android:textSize="20sp"
+	        android:text="@string/pop" />
+	
+	    <Button
+	        android:id="@+id/rock"
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:layout_margin="1dp"
+	        android:background="#ff000000"
+            android:textColor="#ffffffff"
+            android:textSize="20sp"
+	        android:text="@string/rock" />
+	
+	    <Button
+	        android:id="@+id/none"
+	        android:layout_width="match_parent"
+	        android:layout_height="0dp"
+	        android:layout_weight="1"
+	        android:layout_margin="1dp"
+	        android:background="#ff000000"
+            android:textColor="#ffffffff"
+            android:textSize="20sp"
+	        android:text="@string/none" />
+	</LinearLayout>
 
 </LinearLayout>
