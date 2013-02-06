@@ -42,8 +42,8 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="com.android.randommusicplayer.SoundEffect"
-            android:label="@string/sound_effect"
+        <activity android:name="com.android.randommusicplayer.Equalizer"
+            android:label="@string/equalizer"
             android:theme="@android:style/Theme.Black.NoTitleBar"
             android:parentActivityName="com.android.randommusicplayer.MainActivity" >
             <meta-data

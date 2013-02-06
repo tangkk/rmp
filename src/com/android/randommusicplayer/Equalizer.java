@@ -24,7 +24,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class SoundEffect extends Activity implements OnClickListener{
+public class Equalizer extends Activity implements OnClickListener{
 	
 	Button classical;
 	Button dance;

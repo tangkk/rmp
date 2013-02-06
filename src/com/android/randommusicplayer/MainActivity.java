@@ -17,20 +17,14 @@
 package com.android.randommusicplayer;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 
 /** 
  * Main activity: shows media player buttons. This activity shows the media player buttons and
@@ -43,15 +37,16 @@ public class MainActivity extends Activity implements OnClickListener {
      * have to find an URL to test this sample.
      */
     final String SUGGESTED_URL = "http://www.vorbis.com/music/Epoq-Lepidoptera.ogg";
-    static final int SOUNDEFFECTREQ = 0;
+    static final int EQUALIZER = 0;
     static final int TUNER = 1;
 
     Button mPlayButton;
     Button mPauseButton;
     Button mSkipButton;
-    Button mRewindButton;
     Button mStopButton;
-    Button mEjectButton;
+    
+    Button mEqualizerButton;
+    Button mTunerButton;
 
     /**
      * Called when the activity is first created. Here, we simply set the event listeners and
@@ -78,16 +73,18 @@ public class MainActivity extends Activity implements OnClickListener {
         mPlayButton = (Button) findViewById(R.id.playbutton);
         mPauseButton = (Button) findViewById(R.id.pausebutton);
         mSkipButton = (Button) findViewById(R.id.skipbutton);
-        mRewindButton = (Button) findViewById(R.id.rewindbutton);
         mStopButton = (Button) findViewById(R.id.stopbutton);
-        mEjectButton = (Button) findViewById(R.id.ejectbutton);
+
+        mEqualizerButton = (Button) findViewById(R.id.equalizer);
+        mTunerButton = (Button) findViewById(R.id.tuner);
 
         mPlayButton.setOnClickListener(this);
         mPauseButton.setOnClickListener(this);
         mSkipButton.setOnClickListener(this);
-        mRewindButton.setOnClickListener(this);
         mStopButton.setOnClickListener(this);
-        mEjectButton.setOnClickListener(this);
+        
+        mEqualizerButton.setOnClickListener(this);
+        mTunerButton.setOnClickListener(this);
         
 
     }
@@ -100,44 +97,13 @@ public class MainActivity extends Activity implements OnClickListener {
             startService(new Intent(MusicService.ACTION_PAUSE));
         else if (target == mSkipButton)
             startService(new Intent(MusicService.ACTION_SKIP));
-        else if (target == mRewindButton)
-            startService(new Intent(MusicService.ACTION_REWIND));
         else if (target == mStopButton)
             startService(new Intent(MusicService.ACTION_STOP));
-        else if (target == mEjectButton) {
-            showUrlDialog();
-        }
-    }
-
-    /** 
-     * Shows an alert dialog where the user can input a URL. After showing the dialog, if the user
-     * confirms, sends the appropriate intent to the {@link MusicService} to cause that URL to be
-     * played.
-     */
-    void showUrlDialog() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setTitle("Manual Input");
-        alertBuilder.setMessage("Enter a URL");
-        final EditText input = new EditText(this);
-        alertBuilder.setView(input);
-
-        input.setText(SUGGESTED_URL);
-
-        alertBuilder.setPositiveButton("Play!", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dlg, int whichButton) {
-                // Send an intent with the URL of the song to play. This is expected by
-                // MusicService.
-                Intent i = new Intent(MusicService.ACTION_URL);
-                Uri uri = Uri.parse(input.getText().toString());
-                i.setData(uri);
-                startService(i);
-            }
-        });
-        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dlg, int whichButton) {}
-        });
-
-        alertBuilder.show();
+        else if (target == mTunerButton)
+        	startActivity(new Intent(this, Tuner.class));
+        else if (target == mEqualizerButton) {
+    		startActivityForResult(new Intent(this, Equalizer.class), EQUALIZER);
+        } 
     }
 
     @Override
@@ -147,9 +113,6 @@ public class MainActivity extends Activity implements OnClickListener {
             case KeyEvent.KEYCODE_HEADSETHOOK:
                 startService(new Intent(MusicService.ACTION_TOGGLE_PLAYBACK));
                 return true;
-            case KeyEvent.KEYCODE_FOCUS:
-            	startService(new Intent(MusicService.ACTION_SKIP));
-            	return true;
             case KeyEvent.KEYCODE_MEDIA_NEXT:
                 startService(new Intent(MusicService.ACTION_SKIP));
                 return true;
@@ -163,30 +126,8 @@ public class MainActivity extends Activity implements OnClickListener {
     }
     
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-      MenuInflater inflater = getMenuInflater();
-      inflater.inflate(R.menu.menu, menu);
-      return true;
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	switch(item.getItemId()) {
-    	case R.id.soundeffect:
-    		startActivityForResult(new Intent(this, SoundEffect.class), SOUNDEFFECTREQ);
-    		return true;
-    	case R.id.tuner:
-    		startActivity(new Intent(this, Tuner.class));
-    		return true;
-    	default:
-    		return super.onOptionsItemSelected(item);
-    	}
-    	
-    }
-    
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	if (requestCode == SOUNDEFFECTREQ) {
+    	if (requestCode == EQUALIZER) {
     		if (resultCode == RESULT_OK) {
     			// Set the returned audio effect to the music player
     			short EQ = data.getShortExtra("EQ", (short)5);
@@ -197,5 +138,5 @@ public class MainActivity extends Activity implements OnClickListener {
     			startService(intent);
     		}
     	}
-    }
+    }    
 }
