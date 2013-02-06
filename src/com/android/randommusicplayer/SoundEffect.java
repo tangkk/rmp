@@ -55,7 +55,7 @@ public class SoundEffect extends Activity implements OnClickListener{
 	
 	public void onClick (View target) {
 		Intent intent = new Intent();
-		Log.i("onActivityResult", "Onclick");
+		Log.i("SoundEffect", "Onclick");
 		if (target == classical)
 			intent.putExtra("EQ", (short)0);
 		else if (target == dance)

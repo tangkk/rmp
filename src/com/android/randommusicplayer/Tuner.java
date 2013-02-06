@@ -16,9 +16,20 @@
 
 package com.android.randommusicplayer;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import com.leff.midi.MidiFile;
+import com.leff.midi.MidiTrack;
+import com.leff.midi.event.meta.Tempo;
+import com.leff.midi.event.meta.TimeSignature;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +42,13 @@ public class Tuner extends Activity implements OnClickListener{
 	Button D3;
 	Button A2;
 	Button E2;
+	
+	public final static int NoteE4 = 64;
+	public final static int NoteB3 = 59;
+	public final static int NoteG3 = 55;
+	public final static int NoteD3 = 50;
+	public final static int NoteA2 = 45;
+	public final static int NoteE2 = 40;
 	
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -54,6 +72,70 @@ public class Tuner extends Activity implements OnClickListener{
 	
 	@Override
 	public void onClick (View target) {
+		Log.i("Tuner", "Onclick");
+		if (target == E4) {
+			Log.i("Tuner", "E4");
+			playNote(NoteE4);
+		} else if (target == B3) {
+			Log.i("Tuner", "B3");
+			playNote(NoteB3);
+		} else if (target == G3) {
+			Log.i("Tuner", "G3");
+			playNote(NoteG3);
+		} else if (target == D3) {
+			playNote(NoteD3);
+		} else if (target == A2) {
+			playNote(NoteA2);
+		} else if (target == E2) {
+			playNote(NoteE2);
+		}
+	}
+	
+	// This function reuse a lot of code from the example code provided in com.leff.midi package
+	public void playNote(int noteNum) {
+		// 1. Create some MidiTracks
+		MidiTrack tempoTrack = new MidiTrack();
+		MidiTrack noteTrack = new MidiTrack();
 		
+		// 2. Add events to the tracks
+		// 2a. Track 0 is typically the tempo map
+		TimeSignature ts = new TimeSignature();
+		ts.setTimeSignature(4, 4, TimeSignature.DEFAULT_METER, TimeSignature.DEFAULT_DIVISION);
+		
+		Tempo t = new Tempo();
+		t.setBpm(228);
+		
+		tempoTrack.insertEvent(ts);
+		tempoTrack.insertEvent(t);
+		
+		int channel = 0, pitch = noteNum, velocity = 100;
+		noteTrack.insertNote(channel, pitch, velocity, 0, 200);
+		
+		// 3. Create a MidiFile with the tracks we created
+		ArrayList<MidiTrack> tracks = new ArrayList<MidiTrack>();
+		tracks.add(tempoTrack);
+		tracks.add(noteTrack);
+		
+		MidiFile midi = new MidiFile(MidiFile.DEFAULT_RESOLUTION, tracks);
+		
+		// 4. Write the MIDI data to a file
+		File output = new File(getExternalFilesDir(Environment.DIRECTORY_MUSIC), "tuner.mid");
+		try {
+			midi.writeToFile(output);
+			playPath(output.getPath());
+		} catch(IOException e) {
+			System.err.println(e);
+		}
+	}	
+
+	public void playPath(String path) {
+		Log.i("Tuner", "playPath: " + path);
+		// 1. change the path into a Uri with "file" protocol
+		Uri uri = Uri.parse("file://"+ path);
+		
+		// 2. start a service to serve this MIDI playback intent
+		Intent intent = new Intent(MusicService.ACTION_URL);
+		intent.setData(uri);
+		startService(intent);
 	}
 }
