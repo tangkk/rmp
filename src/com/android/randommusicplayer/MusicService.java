@@ -276,12 +276,12 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     }
 
     void processPlayRequest() {
-    	
-        // Create the retriever and start an asynchronous task that will prepare it.
-        mRetriever = new MusicRetriever(getContentResolver());
-        (new PrepareMusicRetrieverTask(mRetriever,this)).execute();
         
         if (mState == State.Retrieving) {
+            // Create the retriever and start an asynchronous task that will prepare it.
+            mRetriever = new MusicRetriever(getContentResolver());
+            (new PrepareMusicRetrieverTask(mRetriever,this)).execute();
+            
             // If we are still retrieving media, just set the flag to start playing when we're
             // ready
             mWhatToPlayAfterRetrieve = null; // play a random song
