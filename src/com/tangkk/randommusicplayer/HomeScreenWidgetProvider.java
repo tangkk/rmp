@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.android.randommusicplayer;
+package com.tangkk.randommusicplayer;
 
-import com.android.randommusicplayer.R;
+import com.tangkk.randommusicplayer.R;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.randommusicplayer;
+package com.tangkk.randommusicplayer;
 
 import android.media.AudioManager;
 import android.util.Log;
@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
  * Contains methods to handle registering/unregistering remote control clients.  These methods only
  * run on ICS devices.  On previous devices, all methods are no-ops.
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
+@SuppressWarnings({"rawtypes"})
 public class RemoteControlHelper {
     private static final String TAG = "RemoteControlHelper";
 

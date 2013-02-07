@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.randommusicplayer;
+package com.tangkk.randommusicplayer;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +25,7 @@ import com.leff.midi.MidiTrack;
 import com.leff.midi.event.Controller;
 import com.leff.midi.event.meta.Tempo;
 import com.leff.midi.event.meta.TimeSignature;
+import com.tangkk.randommusicplayer.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -37,6 +38,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class Tuner extends Activity implements OnClickListener{
+	static final boolean DEBUG = false;
+	
 	Button E4;
 	Button B3;
 	Button G3;
@@ -73,15 +76,15 @@ public class Tuner extends Activity implements OnClickListener{
 	
 	@Override
 	public void onClick (View target) {
-		Log.i("Tuner", "Onclick");
+		if (DEBUG) Log.i("Tuner", "Onclick");
 		if (target == E4) {
-			Log.i("Tuner", "E4");
+			if (DEBUG) Log.i("Tuner", "E4");
 			playNote(NoteE4);
 		} else if (target == B3) {
-			Log.i("Tuner", "B3");
+			if (DEBUG) Log.i("Tuner", "B3");
 			playNote(NoteB3);
 		} else if (target == G3) {
-			Log.i("Tuner", "G3");
+			if (DEBUG) Log.i("Tuner", "G3");
 			playNote(NoteG3);
 		} else if (target == D3) {
 			playNote(NoteD3);
@@ -135,13 +138,13 @@ public class Tuner extends Activity implements OnClickListener{
 	@Override
 	protected void onStop() {
 		super.onStop();
-		Log.i("Tuner", "onStop()");
+		if (DEBUG) Log.i("Tuner", "onStop()");
 		Intent intent = new Intent(MusicService.ACTION_STOP);
 		startService(intent);
 	}
 
 	public void playPath(String path) {
-		Log.i("Tuner", "playPath: " + path);
+		if (DEBUG) Log.i("Tuner", "playPath: " + path);
 		// 1. change the path into a Uri with "file" protocol
 		Uri uri = Uri.parse("file://"+ path);
 		

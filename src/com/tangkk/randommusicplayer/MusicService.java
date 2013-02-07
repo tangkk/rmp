@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.randommusicplayer;
+package com.tangkk.randommusicplayer;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -43,7 +43,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import com.android.randommusicplayer.R;
+import com.tangkk.randommusicplayer.R;
 
 /**
  * Service that handles media playback. This is the Service through which we perform all the media
@@ -55,7 +55,7 @@ import com.android.randommusicplayer.R;
 public class MusicService extends Service implements OnCompletionListener, OnPreparedListener,
                 OnErrorListener, MusicFocusable,
                 PrepareMusicRetrieverTask.MusicRetrieverPreparedListener {
-
+	static final boolean DEBUG = false;
     // The tag we put on debug messages
     final static String TAG = "RandomMusicPlayer";
 
@@ -194,13 +194,13 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         if (EQ == null) {
         	int ASID = mPlayer.getAudioSessionId();
         	EQ = new Equalizer(0, ASID);
-        	Log.i("Equalizer","Equalizer Created!");
+        	if (DEBUG) Log.i("Equalizer","Equalizer Created!");
         }
     }
 
     @Override
     public void onCreate() {
-        Log.i(TAG, "debug: Creating service");
+        if (DEBUG) Log.i(TAG, "debug: Creating service");
 
         // Create the Wifi lock (this does not acquire the lock, this just creates it)
         mWifiLock = ((WifiManager) getSystemService(Context.WIFI_SERVICE))
@@ -232,19 +232,19 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     	// Setup the Equalizer according to the intent
     	if (intent.getBooleanExtra("EQREQUEST", false)) {
 	    	EQPreset = intent.getShortExtra("EQ", None);
-	    	Log.i("Equalizer", "Input EQPreset = " + EQPreset);	    	
+	    	if (DEBUG) Log.i("Equalizer", "Input EQPreset = " + EQPreset);	    	
 	    	// Update the Equalizer if the preset changes
 	    	if (EQ != null){
-				Log.i("Equalizer", "Current EQPreset = " +
+				if (DEBUG) Log.i("Equalizer", "Current EQPreset = " +
 				EQ.getPresetName(EQ.getCurrentPreset()) + " is " + EQ.getEnabled());
 			    if (EQPreset == None) {
 			    	EQ.setEnabled(false);
-			        Log.i("Equalizer","is EQ enable = "+ EQ.getEnabled());
+			        if (DEBUG) Log.i("Equalizer","is EQ enable = "+ EQ.getEnabled());
 			    } else {
 			    	EQ.usePreset(EQPreset);
 			        String PresetName = EQ.getPresetName(EQ.getCurrentPreset());
 			        EQ.setEnabled(true);
-			        Log.i("Equalizer","New Preset name = "+ PresetName + " is " + EQ.getEnabled());
+			        if (DEBUG) Log.i("Equalizer","New Preset name = "+ PresetName + " is " + EQ.getEnabled());
 			    }
 			    EQPreserved = EQPreset;
 			}
@@ -259,7 +259,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         // which will be used in "onCompletion"
         Action = action;
         
-        Log.i(TAG, "onStartCommand" + action);
+        if (DEBUG) Log.i(TAG, "onStartCommand" + action);
         if (action.equals(ACTION_TOGGLE_PLAYBACK)) processTogglePlaybackRequest();
         else if (action.equals(ACTION_PLAY)) processPlayRequest();
         else if (action.equals(ACTION_PAUSE)) processPauseRequest();
@@ -439,7 +439,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     void processAddRequest(Intent intent) {
         Uri data = intent.getData();
     	processPauseRequest();
-        Log.i(TAG, "Playing from URL/path: " + intent.getData().toString());
+        if (DEBUG) Log.i(TAG, "Playing from URL/path: " + intent.getData().toString());
         tryToGetAudioFocus();
         playNextSong(data.toString().startsWith("http") ? data.toString() : data.getPath());
     }
@@ -464,11 +464,11 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         try {
             MusicRetriever.Item playingItem = null;
             if (manualUrl != null) {
-            	Log.i(TAG,"playNextSong: manualUrl true! play URL");
+            	if (DEBUG) Log.i(TAG,"playNextSong: manualUrl true! play URL");
                 // set the source of the media player to a manual URL or path
                 createMediaPlayerIfNeeded();
                 mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                Log.i("RandomMusicPlayer",manualUrl);
+                if (DEBUG) Log.i("RandomMusicPlayer",manualUrl);
                 mPlayer.setDataSource(manualUrl);
                 mIsStreaming = manualUrl.startsWith("http:") || manualUrl.startsWith("https:");
 
@@ -491,7 +491,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
                 createMediaPlayerIfNeeded();
                 mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mPlayer.setDataSource(getApplicationContext(), playingItem.getURI());
-                Log.i("RandomMusicPlayer",playingItem.getURI().toString());
+                if (DEBUG) Log.i("RandomMusicPlayer",playingItem.getURI().toString());
             }
 
             mSongTitle = playingItem.getTitle();
@@ -566,9 +566,9 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     public void onCompletion(MediaPlayer player) {
     	// The media player finished playing the current song,
     	// so we go ahead and start the next if it's not a URL request
-    	Log.i(TAG,"onCompletion: Action = " + Action);
+    	if (DEBUG) Log.i(TAG,"onCompletion: Action = " + Action);
     	if (!Action.equals(ACTION_URL)) {
-    		Log.i(TAG,"onCompletion: PlayNextSong!");
+    		if (DEBUG) Log.i(TAG,"onCompletion: PlayNextSong!");
     		playNextSong(null);
     	} /*else {
     		mState = State.Stopped;
@@ -586,7 +586,8 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     }
 
     /** Updates the notification. */
-    void updateNotification(String text) {
+    @SuppressWarnings("deprecation")
+	void updateNotification(String text) {
         PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0,
                 new Intent(getApplicationContext(), MainActivity.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -599,7 +600,8 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
      * something the user is actively aware of (such as playing music), and must appear to the
      * user as a notification. That's why we create the notification here.
      */
-    void setUpAsForeground(String text) {
+    @SuppressWarnings("deprecation")
+	void setUpAsForeground(String text) {
         PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0,
                 new Intent(getApplicationContext(), MainActivity.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);

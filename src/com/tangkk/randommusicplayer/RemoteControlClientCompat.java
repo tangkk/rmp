@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.randommusicplayer;
+package com.tangkk.randommusicplayer;
 
 import android.app.PendingIntent;
 import android.graphics.Bitmap;

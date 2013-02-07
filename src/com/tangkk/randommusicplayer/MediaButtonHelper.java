@@ -1,4 +1,4 @@
-package com.android.randommusicplayer;
+package com.tangkk.randommusicplayer;
 
 import android.content.ComponentName;
 import android.media.AudioManager;
@@ -58,7 +58,6 @@ public class MediaButtonHelper {
         }
     }
 
-    @SuppressWarnings("unused")
     public static void unregisterMediaButtonEventReceiverCompat(AudioManager audioManager,
             ComponentName receiver) {
         if (sMethodUnregisterMediaButtonEventReceiver == null)

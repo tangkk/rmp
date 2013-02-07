@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.randommusicplayer;
+package com.tangkk.randommusicplayer;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -30,22 +30,24 @@ import android.widget.Toast;
  * declaring it in a &lt;receiver&gt; tag in AndroidManifest.xml.
  */
 public class MusicIntentReceiver extends BroadcastReceiver {
+	static final boolean DEBUG = false;
+	
     @Override
     public void onReceive(Context context, Intent intent) {
-    	Log.i("MusicIntentReceiver", "On!");
+    	if (DEBUG) Log.i("MusicIntentReceiver", "On!");
         if (intent.getAction().equals(android.media.AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
-        	Log.i("MusicIntentReceiver", "ACTION_AUDIO_BECOMING_NOISY!");
+        	if (DEBUG) Log.i("MusicIntentReceiver", "ACTION_AUDIO_BECOMING_NOISY!");
             Toast.makeText(context, "Headphones disconnected.", Toast.LENGTH_SHORT).show();
 
             // send an intent to our MusicService to telling it to pause the audio
             context.startService(new Intent(MusicService.ACTION_PAUSE));
 
         } else if (intent.getAction().equals(Intent.ACTION_MEDIA_BUTTON)) {
-        	Log.i("MusicIntentReceiver", "ACTION_MEDIA_BUTTON!");
+        	if (DEBUG) Log.i("MusicIntentReceiver", "ACTION_MEDIA_BUTTON!");
             KeyEvent keyEvent = (KeyEvent) intent.getExtras().get(Intent.EXTRA_KEY_EVENT);
-            Log.i("MusicIntentReceiver", "finished getExtras!");
+            if (DEBUG) Log.i("MusicIntentReceiver", "finished getExtras!");
             if (keyEvent.getAction() != KeyEvent.ACTION_DOWN) {
-            	Log.i("MusicIntentReceiver", "keyEvent.getAction() != KeyEvent.ACTION_DOWN!");
+            	if (DEBUG) Log.i("MusicIntentReceiver", "keyEvent.getAction() != KeyEvent.ACTION_DOWN!");
                 return;
             }
 
@@ -73,7 +75,7 @@ public class MusicIntentReceiver extends BroadcastReceiver {
                     break;
             }
         } else {
-        	Log.i("MusicIntentReceiver", "Do Nothing! Return!");
+        	if (DEBUG) Log.i("MusicIntentReceiver", "Do Nothing! Return!");
         	return;
         }
     }

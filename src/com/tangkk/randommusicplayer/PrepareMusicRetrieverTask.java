@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.randommusicplayer;
-
-import java.io.UnsupportedEncodingException;
+package com.tangkk.randommusicplayer;
 
 import android.os.AsyncTask;
 

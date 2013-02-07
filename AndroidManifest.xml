@@ -15,7 +15,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.randommusicplayer"
+    package="com.tangkk.randommusicplayer"
     android:versionCode="1"
     android:versionName="1.0">
 
@@ -28,7 +28,7 @@
 
     <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_title">
 
-        <activity android:name="com.android.randommusicplayer.MainActivity"
+        <activity android:name="com.tangkk.randommusicplayer.MainActivity"
             android:label="@string/app_title"
             android:theme="@android:style/Theme.Black.NoTitleBar">
             <intent-filter>
@@ -42,25 +42,25 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="com.android.randommusicplayer.Equalizer"
+        <activity android:name="com.tangkk.randommusicplayer.Equalizer"
             android:label="@string/equalizer"
             android:theme="@android:style/Theme.Black.NoTitleBar"
-            android:parentActivityName="com.android.randommusicplayer.MainActivity" >
+            android:parentActivityName="com.tangkk.randommusicplayer.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.randommusicplayer.MainActivity" />
+                android:value="com.tangkk.randommusicplayer.MainActivity" />
         </activity>
         
-        <activity android:name="com.android.randommusicplayer.Tuner"
+        <activity android:name=".Tuner"
             android:label="@string/tuner"
             android:theme="@android:style/Theme.Black.NoTitleBar"
-            android:parentActivityName="com.android.randommusicplayer.MainActivity" >
+            android:parentActivityName="com.tangkk.randommusicplayer.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.randommusicplayer.MainActivity" />
+                android:value="com.tangkk.randommusicplayer.MainActivity" />
         </activity>
 
-        <service android:exported="false" android:name="com.android.randommusicplayer.MusicService">
+        <service android:exported="false" android:name=".MusicService">
             <intent-filter>
                 <action android:name="com.example.android.musicplayer.action.TOGGLE_PLAYBACK" />
                 <action android:name="com.example.android.musicplayer.action.PLAY" />
@@ -76,7 +76,7 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="com.android.randommusicplayer.MusicIntentReceiver">  
+        <receiver android:name="com.tangkk.randommusicplayer.MusicIntentReceiver">  
             <intent-filter>
                 <action android:name="android.media.AUDIO_BECOMING_NOISY" />
             </intent-filter>
@@ -85,7 +85,7 @@
             </intent-filter>
         </receiver>
         
-        <receiver android:name="com.android.randommusicplayer.HomeScreenWidgetProvider"
+        <receiver android:name=".HomeScreenWidgetProvider"
             android:label="RandomMusicPlayer">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.randommusicplayer;
+package com.tangkk.randommusicplayer;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -34,6 +34,8 @@ import java.util.Random;
  * request.
  */
 public class MusicRetriever {
+	static final boolean DEBUG = false;
+	
     final String TAG = "MusicRetriever";
 
     ContentResolver mContentResolver;
@@ -53,14 +55,14 @@ public class MusicRetriever {
      */
     public void prepare() {
         Uri uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Log.i(TAG, "Querying media...");
-        Log.i(TAG, "URI: " + uri.toString());
+        if (DEBUG) Log.i(TAG, "Querying media...");
+        if (DEBUG) Log.i(TAG, "URI: " + uri.toString());
 
         // Perform a query on the content resolver. The URI we're passing specifies that we
         // want to query for all audio media on external storage (e.g. SD card)
         Cursor cur = mContentResolver.query(uri, null,
                 MediaStore.Audio.Media.IS_MUSIC + " = 1", null, null);
-        Log.i(TAG, "Query finished. " + (cur == null ? "Returned NULL." : "Returned a cursor."));
+        if (DEBUG) Log.i(TAG, "Query finished. " + (cur == null ? "Returned NULL." : "Returned a cursor."));
 
         if (cur == null) {
             // Query failed...
@@ -73,7 +75,7 @@ public class MusicRetriever {
             return;
         }
 
-        Log.i(TAG, "Listing...");
+        if (DEBUG) Log.i(TAG, "Listing...");
 
         // retrieve the indices of the columns where the ID, title, etc. of the song are
         int artistColumn = cur.getColumnIndex(MediaStore.Audio.Media.ARTIST);
@@ -82,12 +84,12 @@ public class MusicRetriever {
         int durationColumn = cur.getColumnIndex(MediaStore.Audio.Media.DURATION);
         int idColumn = cur.getColumnIndex(MediaStore.Audio.Media._ID);
 
-        Log.i(TAG, "Title column index: " + String.valueOf(titleColumn));
-        Log.i(TAG, "ID column index: " + String.valueOf(titleColumn));
+        if (DEBUG) Log.i(TAG, "Title column index: " + String.valueOf(titleColumn));
+        if (DEBUG) Log.i(TAG, "ID column index: " + String.valueOf(titleColumn));
 
         // add each song to mItems
         do {
-            Log.i(TAG, "ID: " + cur.getString(idColumn) /*+ " Title: " + cur.getString(titleColumn)*/);
+            if (DEBUG) Log.i(TAG, "ID: " + cur.getString(idColumn) /*+ " Title: " + cur.getString(titleColumn)*/);
             mItems.add(new Item(
                     cur.getLong(idColumn),
                     cur.getString(artistColumn),
@@ -96,7 +98,7 @@ public class MusicRetriever {
                     cur.getLong(durationColumn)));
         } while (cur.moveToNext());
 
-        Log.i(TAG, "Done querying media. MusicRetriever is ready.");
+        if (DEBUG) Log.i(TAG, "Done querying media. MusicRetriever is ready.");
     }
 
     public ContentResolver getContentResolver() {

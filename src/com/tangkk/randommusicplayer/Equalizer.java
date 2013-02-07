@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.randommusicplayer;
+package com.tangkk.randommusicplayer;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import com.tangkk.randommusicplayer.R;
 
 public class Equalizer extends Activity implements OnClickListener{
 	
@@ -32,6 +33,8 @@ public class Equalizer extends Activity implements OnClickListener{
 	Button pop;
 	Button rock;
 	Button none;
+	
+	static final boolean DEBUG = false;
 	
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class Equalizer extends Activity implements OnClickListener{
 	
 	public void onClick (View target) {
 		Intent intent = new Intent();
-		Log.i("SoundEffect", "Onclick");
+		if (DEBUG) Log.i("SoundEffect", "Onclick");
 		if (target == classical)
 			intent.putExtra("EQ", (short)0);
 		else if (target == dance)

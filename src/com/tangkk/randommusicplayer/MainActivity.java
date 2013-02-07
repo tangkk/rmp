@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.randommusicplayer;
+package com.tangkk.randommusicplayer;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,6 +25,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import com.tangkk.randommusicplayer.R;
 
 /** 
  * Main activity: shows media player buttons. This activity shows the media player buttons and
@@ -39,6 +40,8 @@ public class MainActivity extends Activity implements OnClickListener {
     final String SUGGESTED_URL = "http://www.vorbis.com/music/Epoq-Lepidoptera.ogg";
     static final int EQUALIZER = 0;
     static final int TUNER = 1;
+    
+    static final boolean DEBUG = false;
 
     Button mPlayButton;
     Button mPauseButton;
@@ -59,12 +62,12 @@ public class MainActivity extends Activity implements OnClickListener {
         setContentView(R.layout.main);
         
         Intent intent = getIntent();
-        Log.i("MainActivity","startService for " + intent.getType());
+        if (DEBUG) Log.i("MainActivity","startService for " + intent.getType());
         
         if (intent.getType() != null) {
-       	  Log.i("MainActivity","startService for " + intent.getAction());
+       	  if (DEBUG) Log.i("MainActivity","startService for " + intent.getAction());
        	  Uri uri = intent.getData();
-       	  Log.i("MainActivity",uri.toString());
+       	  if (DEBUG) Log.i("MainActivity",uri.toString());
           Intent playUrl = new Intent(MusicService.ACTION_URL);
           playUrl.setData(uri);
           startService(playUrl);
@@ -131,7 +134,7 @@ public class MainActivity extends Activity implements OnClickListener {
     		if (resultCode == RESULT_OK) {
     			// Set the returned audio effect to the music player
     			short EQ = data.getShortExtra("EQ", (short)5);
-    			Log.i("onActivityResult", "returned data = " + EQ);
+    			if (DEBUG) Log.i("onActivityResult", "returned data = " + EQ);
     			Intent intent = new Intent(MusicService.ACTION_PLAY);
     			intent.putExtra("EQ", EQ);
     			intent.putExtra("EQREQUEST", true);
