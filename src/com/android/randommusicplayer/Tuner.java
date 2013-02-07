@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import com.leff.midi.MidiFile;
 import com.leff.midi.MidiTrack;
+import com.leff.midi.event.Controller;
 import com.leff.midi.event.meta.Tempo;
 import com.leff.midi.event.meta.TimeSignature;
 
@@ -108,8 +109,10 @@ public class Tuner extends Activity implements OnClickListener{
 		tempoTrack.insertEvent(ts);
 		tempoTrack.insertEvent(t);
 		
-		int channel = 0, pitch = noteNum, velocity = 100;
-		noteTrack.insertNote(channel, pitch, velocity, 0, 200);
+		int channel = 0, pitch = noteNum, velocity = 120, volume = 127;
+		noteTrack.insertNote(channel, pitch, velocity, 0, 300);
+		noteTrack.insertEvent(new Controller(0, channel, 0x7, volume));
+		
 		
 		// 3. Create a MidiFile with the tracks we created
 		ArrayList<MidiTrack> tracks = new ArrayList<MidiTrack>();
@@ -122,11 +125,20 @@ public class Tuner extends Activity implements OnClickListener{
 		File output = new File(getExternalFilesDir(Environment.DIRECTORY_MUSIC), "tuner.mid");
 		try {
 			midi.writeToFile(output);
+			//C.writeToFile(output, true);
 			playPath(output.getPath());
 		} catch(IOException e) {
 			System.err.println(e);
 		}
-	}	
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Log.i("Tuner", "onStop()");
+		Intent intent = new Intent(MusicService.ACTION_STOP);
+		startService(intent);
+	}
 
 	public void playPath(String path) {
 		Log.i("Tuner", "playPath: " + path);
@@ -136,6 +148,7 @@ public class Tuner extends Activity implements OnClickListener{
 		// 2. start a service to serve this MIDI playback intent
 		Intent intent = new Intent(MusicService.ACTION_URL);
 		intent.setData(uri);
+		intent.putExtra("Tuner", true);
 		startService(intent);
 	}
 }

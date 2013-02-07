@@ -88,6 +88,8 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     public static final short Pop = 3;
     public static final short Rock = 4;
     public static final short None = 5;
+    
+    public static boolean isTuner = false;
 
     // our AudioFocusHelper object, if it's available (it's available on SDK level >= 8)
     // If not available, this will be null. Always check for null before using!
@@ -248,6 +250,10 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 			}
     	}
     	
+    	if (intent.getBooleanExtra("Tuner", false)) {
+    		isTuner = true;
+    	}
+    	
         String action = intent.getAction();
         // Store the incomming action into the context of the service
         // which will be used in "onCompletion"
@@ -349,6 +355,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     }
 
     void processStopRequest() {
+    	isTuner = false; //Turn off the tuner mode
         processStopRequest(false);
     }
 
@@ -419,6 +426,8 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         }
         else if (mAudioFocus == AudioFocus.NoFocusCanDuck)
             mPlayer.setVolume(DUCK_VOLUME, DUCK_VOLUME);  // we'll be relatively quiet
+        else if (isTuner == true)
+        	mPlayer.setVolume(2.0f, 2.0f);
         else
             mPlayer.setVolume(1.0f, 1.0f); // we can be loud
 
@@ -561,9 +570,11 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     	if (!Action.equals(ACTION_URL)) {
     		Log.i(TAG,"onCompletion: PlayNextSong!");
     		playNextSong(null);
-    	} else {
-    		processStopRequest();
-    	}
+    	} /*else {
+    		mState = State.Stopped;
+            // hold the mediaplayer unkilled
+            relaxResources(false);
+    	}*/
     }
 
     /** Called when media player is done preparing. */
