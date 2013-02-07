@@ -1,1 +1,4 @@
-This is an augmented random music player based on Android SDK's sample code
+This is an augmented random music player based on Android SDK's sample code. Beyond the rmp, it contains an equalizer and a MIDI Tuner, and a "six squares" very cool layout as well.
+
+To manipulate the MIDI, you need to have a android-midi-libv2-1 library to play 
+with the Tuner.
