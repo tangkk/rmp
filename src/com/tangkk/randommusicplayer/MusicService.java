@@ -273,7 +273,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     }
 
     void processTogglePlaybackRequest() {
-    	//Toast.makeText(getApplicationContext(), "Toggle Play!", Toast.LENGTH_SHORT).show();
+    	if (DEBUG) Toast.makeText(getApplicationContext(), "Toggle Play!", Toast.LENGTH_SHORT).show();
         if (mState == State.Paused || mState == State.Stopped) {
             processPlayRequest();
         } else {
@@ -301,14 +301,14 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 
         if (mState == State.Stopped) {
             // If we're stopped, just go ahead to the next song and start playing
-        	//Toast.makeText(getApplicationContext(), "Play at State.Stopped!", Toast.LENGTH_SHORT).show();
+        	if (DEBUG) Toast.makeText(getApplicationContext(), "Play at State.Stopped!", Toast.LENGTH_SHORT).show();
             playNextSong(null);
         }
         else if (mState == State.Paused) {
             // If we're paused, just continue playback and restore the 'foreground service' state.
             mState = State.Playing;
             setUpAsForeground(/*mSongTitle +*/ "playing......");
-            //Toast.makeText(getApplicationContext(), "Play at State.Paused!", Toast.LENGTH_SHORT).show();
+            if (DEBUG) Toast.makeText(getApplicationContext(), "Play at State.Paused!", Toast.LENGTH_SHORT).show();
             configAndStartMediaPlayer();
         }
 
@@ -366,7 +366,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
             // let go of all resources...
             relaxResources(true);
             giveUpAudioFocus();
-            //Toast.makeText(getApplicationContext(), "processStopRequest", Toast.LENGTH_SHORT).show();
+            if (DEBUG) Toast.makeText(getApplicationContext(), "processStopRequest", Toast.LENGTH_SHORT).show();
             // Tell any remote controls that our playback state is 'paused'.
             if (mRemoteControlClientCompat != null) {
                 mRemoteControlClientCompat
@@ -395,7 +395,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
             mPlayer = null;
             EQ.release();
             EQ = null;
-            //Toast.makeText(getApplicationContext(), "release resources", Toast.LENGTH_SHORT).show();
+            if (DEBUG) Toast.makeText(getApplicationContext(), "release resources", Toast.LENGTH_SHORT).show();
         }
 
         // we can also release the Wifi lock, if we're holding it
@@ -479,7 +479,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
 
                 playingItem = mRetriever.getRandomItem();
                 if (playingItem == null) {
-                    Toast.makeText(this,
+                    if (DEBUG) Toast.makeText(this,
                             "No available music to play. Place some music on your external storage "
                             + "device (e.g. your SD card) and try again.",
                             Toast.LENGTH_LONG).show();
@@ -619,7 +619,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
      * the Error state. We warn the user about the error and reset the media player.
      */
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        Toast.makeText(getApplicationContext(), "Media player error! Resetting.",
+        if (DEBUG) Toast.makeText(getApplicationContext(), "Media player error! Resetting.",
             Toast.LENGTH_SHORT).show();
         Log.e(TAG, "Error: what=" + String.valueOf(what) + ", extra=" + String.valueOf(extra));
 
@@ -630,7 +630,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     }
 
     public void onGainedAudioFocus() {
-        Toast.makeText(getApplicationContext(), "gained audio focus.", Toast.LENGTH_SHORT).show();
+        if (DEBUG) Toast.makeText(getApplicationContext(), "gained audio focus.", Toast.LENGTH_SHORT).show();
         mAudioFocus = AudioFocus.Focused;
         mAudioManager.registerMediaButtonEventReceiver(mMediaButtonReceiverComponent);
 
@@ -640,7 +640,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
     }
 
     public void onLostAudioFocus(boolean canDuck) {
-        Toast.makeText(getApplicationContext(), "lost audio focus." + (canDuck ? "can duck" :
+        if (DEBUG) Toast.makeText(getApplicationContext(), "lost audio focus." + (canDuck ? "can duck" :
             "no duck"), Toast.LENGTH_SHORT).show();
         mAudioFocus = canDuck ? AudioFocus.NoFocusCanDuck : AudioFocus.NoFocusNoDuck;
         mAudioManager.unregisterMediaButtonEventReceiver(mMediaButtonReceiverComponent);
@@ -657,7 +657,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         // If the flag indicates we should start playing after retrieving, let's do that now.
         if (mStartPlayingAfterRetrieve) {
             tryToGetAudioFocus();
-            //Toast.makeText(getApplicationContext(), "mStartPlayingAfterRetrieve!", Toast.LENGTH_SHORT).show();
+            if (DEBUG) Toast.makeText(getApplicationContext(), "mStartPlayingAfterRetrieve!", Toast.LENGTH_SHORT).show();
             playNextSong(mWhatToPlayAfterRetrieve == null ?
                     null : (mWhatToPlayAfterRetrieve.toString().startsWith("http") ?
                     		mWhatToPlayAfterRetrieve.toString() : mWhatToPlayAfterRetrieve.getPath()));
