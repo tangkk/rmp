@@ -1,4 +1,12 @@
-This is an augmented random music player based on Android SDK's sample code. Beyond the rmp, it contains an equalizer and a MIDI Tuner, and a "six squares" very cool layout as well.
+This is an extremely cool music player, which keep randomly plays songs from your local audio resources on your selected EQ.
+For those in need, it also contains a very cool guitar tuner(E4, B3, G3, D3, A2, E2).
+The most attractive thing about this App is the simple and elegant modern style "six square" layout.
+PL = PLAY
+SK = SKIP
+PS = PAUSE
+ST = STOP
+TN = TUNER
+EQ = EQUALIZER
 
 To manipulate the MIDI, you need to have a android-midi-libv2-1 library to play 
 with the Tuner.
