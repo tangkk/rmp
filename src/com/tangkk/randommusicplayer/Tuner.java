@@ -97,41 +97,44 @@ public class Tuner extends Activity implements OnClickListener{
 	
 	// This function reuse a lot of code from the example code provided in com.leff.midi package
 	public void playNote(int noteNum) {
-		// 1. Create some MidiTracks
-		MidiTrack tempoTrack = new MidiTrack();
-		MidiTrack noteTrack = new MidiTrack();
-		
-		// 2. Add events to the tracks
-		// 2a. Track 0 is typically the tempo map
-		TimeSignature ts = new TimeSignature();
-		ts.setTimeSignature(4, 4, TimeSignature.DEFAULT_METER, TimeSignature.DEFAULT_DIVISION);
-		
-		Tempo t = new Tempo();
-		t.setBpm(228);
-		
-		tempoTrack.insertEvent(ts);
-		tempoTrack.insertEvent(t);
-		
-		int channel = 0, pitch = noteNum, velocity = 120, volume = 127;
-		noteTrack.insertNote(channel, pitch, velocity, 0, 300);
-		noteTrack.insertEvent(new Controller(0, channel, 0x7, volume));
-		
-		
-		// 3. Create a MidiFile with the tracks we created
-		ArrayList<MidiTrack> tracks = new ArrayList<MidiTrack>();
-		tracks.add(tempoTrack);
-		tracks.add(noteTrack);
-		
-		MidiFile midi = new MidiFile(MidiFile.DEFAULT_RESOLUTION, tracks);
-		
-		// 4. Write the MIDI data to a file
-		File output = new File(getExternalFilesDir(Environment.DIRECTORY_MUSIC), "tuner.mid");
-		try {
-			midi.writeToFile(output);
-			//C.writeToFile(output, true);
+		File output = new File(getExternalFilesDir(Environment.DIRECTORY_MUSIC), noteNum + ".mid");
+		if (!output.exists()) {		
+			// 1. Create some MidiTracks
+			MidiTrack tempoTrack = new MidiTrack();
+			MidiTrack noteTrack = new MidiTrack();
+			
+			// 2. Add events to the tracks
+			// 2a. Track 0 is typically the tempo map
+			TimeSignature ts = new TimeSignature();
+			ts.setTimeSignature(4, 4, TimeSignature.DEFAULT_METER, TimeSignature.DEFAULT_DIVISION);
+			
+			Tempo t = new Tempo();
+			t.setBpm(228);
+			
+			tempoTrack.insertEvent(ts);
+			tempoTrack.insertEvent(t);
+			
+			int channel = 0, pitch = noteNum, velocity = 120, volume = 127;
+			noteTrack.insertNote(channel, pitch, velocity, 0, 300);
+			noteTrack.insertEvent(new Controller(0, channel, 0x7, volume));
+			
+			
+			// 3. Create a MidiFile with the tracks we created
+			ArrayList<MidiTrack> tracks = new ArrayList<MidiTrack>();
+			tracks.add(tempoTrack);
+			tracks.add(noteTrack);
+			
+			MidiFile midi = new MidiFile(MidiFile.DEFAULT_RESOLUTION, tracks);
+			
+			try {
+				midi.writeToFile(output);
+				//C.writeToFile(output, true);
+				playPath(output.getPath());
+			} catch(IOException e) {
+				System.err.println(e);
+			}
+		} else {
 			playPath(output.getPath());
-		} catch(IOException e) {
-			System.err.println(e);
 		}
 	}
 	
