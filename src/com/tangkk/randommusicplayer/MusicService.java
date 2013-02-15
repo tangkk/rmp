@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+/* This file was changed by tangkk: dengjunqi06323011@gmail.com */
+
 package com.tangkk.randommusicplayer;
 
 import android.app.Notification;
